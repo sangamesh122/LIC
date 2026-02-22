@@ -46,7 +46,19 @@ In this experiment, the following parameters are to be determined:
 8. Unity Gain Bandwidth
 
 ---
+---
 
+## CIRCUIT DIAGRAM
+
+<p align="center">
+  <img src="(https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-22%20171731%20-%20Copy.png)" width="650">
+</p>
+
+<p align="center">
+  <em>Figure 1: Common Source Amplifier Circuit Designed in LTSpice with VDD = 1.8V and RD = 2250Ω</em>
+</p>
+
+The above figure shows the complete circuit used for the design. The NMOS transistor is biased using a DC gate voltage of 0.9V, and a small AC signal is superimposed over it. The drain resistor converts the small variations in drain current into amplified voltage variations at the output node.
 # DC ANALYSIS – DESIGNING THE Q POINT
 
 ## Step 1: Applying Power Constraint
@@ -77,13 +89,11 @@ $$
 
 ## Step 2: Choosing a Proper Operating Voltage
 
-For maximum symmetrical output swing, it is always a good design practice to bias the drain voltage approximately at half of the supply voltage.
+it is always a good design practice to bias the drain voltage approximately at half of the supply voltage.
 
 $$
 V_{DS} = \frac{V_{DD}}{2} = 0.9V
 $$
-
-By doing this, the output can swing equally in both directions without hitting cutoff or triode region too early.
 
 ---
 
@@ -176,7 +186,7 @@ From simulation:
 - $V(vin) = 0.9V$
 - $V(vout) = 0.90005V$
 
-The output voltage being almost exactly 0.9V confirms that the drain node is properly centered. This means the transistor is biased correctly, and the Q-point lies safely in the saturation region, allowing symmetrical signal amplification.
+The output voltage being almost exactly 0.9V confirms that the drain node is properly centered. This means the transistor is biased correctly, and the Q-point lies safely in the saturation region.
 
 ---
 
@@ -195,7 +205,7 @@ $$
 v_{gs} \ll (V_{GS} - V_T)
 $$
 
-Since the overdrive voltage is 0.534V and the input amplitude is only 10mV, the small-signal assumption is valid.
+Since the overdrive voltage is 0.534V and the input amplitude is only 10mV, the small-signal model assumption of amplitude is valid for the linear amplification which is much lesser than the overdrive voltage.
 
 ---
 
@@ -277,7 +287,7 @@ The theoretical calculation assumes an ideal MOSFET and ignores practical second
 - Parasitic capacitances exist in the device structure.
 - The SPICE model includes more accurate physical parameters.
 
-Because of these factors, the simulated gain (3.326) is slightly lower than the theoretical value (3.37). This small variation is completely expected in practical circuit analysis.
+Because of these factors, the simulated gain (3.326) is slightly lower than the theoretical value (3.37). This small variation is expected in practical circuit analysis.
 
 ---
 
@@ -294,8 +304,6 @@ $$
 ---
 
 ## Unity Gain Bandwidth (UGB)
-
-For a single-pole amplifier:
 
 $$
 UGB = A_{midband} \times f_{3dB}
@@ -325,13 +333,13 @@ $$
 23.29 \, MHz
 $$
 
-This value is very close to the calculated unity gain bandwidth, thereby verifying the relationship:
+This value is very close to the calculated unity gain bandwidth, therefore the relationship is verified:
 
 $$
 UGB = A_v \times f_{3dB}
 $$
 
-The small deviation again arises due to higher-order poles and parasitic effects.
+The small deviation again arises due to parasitic capacitance effects.
 
 ---
 
@@ -354,8 +362,8 @@ The small deviation again arises due to higher-order poles and parasitic effects
 
 From this experiment, it is clear that proper DC biasing is extremely important for linear amplification. By carefully selecting the drain current and bias voltages, the transistor was successfully maintained in saturation throughout operation.
 
-The transient analysis confirmed that the amplifier provides voltage gain along with 180-degree phase inversion. The theoretical and simulated gains are very close, which validates the design procedure.
+The transient analysis confirmed that the amplifier provides voltage gain along with 180-degree phase inversion. The theoretical and simulated gains are very close, which tells that the design was properly done.
 
-The AC analysis demonstrated that adding a load capacitor introduces a dominant pole, thereby reducing bandwidth. The unity gain bandwidth relationship was verified successfully from simulation results.
+The AC analysis demonstrated that adding a load capacitor introduces pole and higher frequencies are attenueated, thereby reducing bandwidth. The unity gain bandwidth relationship was verified successfully from simulation results.
 
 Overall, the design and analysis of the Common Source amplifier using 180nm technology was successfully completed.
