@@ -51,7 +51,7 @@ In this experiment, the following parameters are to be determined:
 ## CIRCUIT DIAGRAM
 
 <p align="center">
-  <img src="(Screenshot%202026-02-22%20171731%20-%20Copy.png)" width="650">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png" width="650">
 </p>
 
 <p align="center">
