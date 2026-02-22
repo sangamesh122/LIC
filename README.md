@@ -51,7 +51,7 @@ In this experiment, the following parameters are to be determined:
 ## CIRCUIT DIAGRAM
 
 <p align="center">
-  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png" width="650">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-22%20171731.png" width="650">
 </p>
 
 <p align="center">
@@ -176,7 +176,19 @@ W = 9.08\mu m
 $$
 
 After this adjustment, the operating point matched the design target.
+---
 
+## COMPLETE DC ANALYSIS
+
+<p align="center">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-19%20154648.png" width="700">
+</p>
+
+<p align="center">
+  <em>Figure 3: Complete DC Analysis Showing Circuit Along with Biasing Results</em>
+</p>
+
+This figure shows the circuit along with the DC operating point results obtained after simulation. The drain voltage being approximately equal to 0.9V confirms that the transistor is correctly biased and operating in the saturation region. This establishes the Q-point of the amplifier.
 ---
 
 ## DC OPERATING POINT (FROM LTSPICE)
@@ -187,7 +199,19 @@ From simulation:
 - $V(vout) = 0.90005V$
 
 The output voltage being almost exactly 0.9V confirms that the drain node is properly centered. This means the transistor is biased correctly, and the Q-point lies safely in the saturation region.
+---
 
+## DC OPERATING POINT (NUMERICAL VALUES)
+
+<p align="center">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-22%20171740.png" width="600">
+</p>
+
+<p align="center">
+  <em>Figure 2: LTSpice DC Operating Point Values Showing Node Voltages</em>
+</p>
+
+From the operating point window, it can be clearly observed that the output voltage is very close to 0.9V. This confirms that the drain node is properly centered at half the supply voltage, which ensures maximum symmetrical output swing and stable operation in saturation region.
 ---
 
 # TRANSIENT ANALYSIS
@@ -244,7 +268,19 @@ A_v = 10.438dB
 $$
 
 The waveform clearly shows that the output is inverted with respect to the input, which confirms the 180-degree phase shift characteristic of a CS amplifier. Also, the output amplitude is more than three times the input amplitude, verifying amplification.
+---
 
+## TRANSIENT ANALYSIS
+
+<p align="center">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205559.png" width="750">
+</p>
+
+<p align="center">
+  <em>Figure 4: Transient Response Showing Amplified and Inverted Output Waveform</em>
+</p>
+
+The transient waveform clearly shows that the output signal is amplified compared to the input signal. It can also be observed that the output is 180 degrees out of phase with the input, which confirms the expected behavior of a Common Source amplifier.
 ---
 
 # THEORETICAL GAIN
@@ -340,7 +376,25 @@ UGB = A_v \times f_{3dB}
 $$
 
 The small deviation again arises due to parasitic capacitance effects.
+---
 
+## AC ANALYSIS (FREQUENCY RESPONSE)
+
+<p align="center">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png" width="750">
+</p>
+
+<p align="center">
+  <em>Figure 5: Bode Plot Showing Gain Roll-Off, 3dB Frequency and Unity Gain Frequency</em>
+</p>
+
+From the frequency response plot, the mid-band gain remains constant up to the 3dB frequency, after which the gain starts decreasing due to the effect of load capacitance and parasitic elements. The unity gain frequency obtained from the graph closely matches the calculated value using the relation:
+
+$$
+UGB = A_{midband} \times f_{3dB}
+$$
+
+This validates the theoretical understanding of single-pole amplifier behavior.
 ---
 
 # RESULTS
