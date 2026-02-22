@@ -6,87 +6,58 @@
 
 # AIM
 
-To design and analyze a Common Source (CS) amplifier using an NMOS transistor in **TSMC 180nm technology** using LTSpice, with:
-
-- $V_{DD} = 1.8V$
-- Power constraint ≤ 1 mW
-- Load capacitor $C_L = 10pF$
-- Channel length $L_n = 560nm$
-
-And to determine:
-
-- DC Operating Point (Q-Point)
-- Voltage Gain (Transient and Theoretical)
-- Gain in dB
-- Bandwidth
-- 3dB Frequency
+To design a Common Source (CS) amplifier using an NMOS transistor in 180nm TSMC technology in LTSpice with a supply voltage of 1.8V and power constraint less than or equal to 1mW, and to analyze its DC operating point, transient response, voltage gain, bandwidth, and unity gain frequency.
 
 ---
 
-# INTRODUCTION TO COMMON SOURCE (CS) AMPLIFIER
+# INTRODUCTION TO COMMON SOURCE AMPLIFIER
 
-The Common Source amplifier is one of the most basic and widely used MOSFET amplifier configurations.
+The Common Source amplifier is one of the most fundamental and widely used MOSFET amplifier configurations in analog circuit design. In this configuration, the source terminal is connected to ground, the input signal is applied at the gate, and the output is taken from the drain terminal.
 
-In this configuration:
+The reason this configuration is so popular is because it provides a reasonably high voltage gain along with a 180-degree phase shift between input and output. When the MOSFET operates in the saturation region, it behaves like a voltage-controlled current source. A small variation in gate voltage produces a change in drain current, and this change across the drain resistor gets converted into an amplified voltage at the output node.
 
-- Input is applied to the **gate**
-- Output is taken from the **drain**
-- Source is common (connected to ground)
-
-The CS amplifier provides:
-
-- High voltage gain
-- 180° phase shift
-- Moderate input impedance
-- Moderate output impedance
-
-When the MOSFET operates in **saturation region**, it behaves like a controlled current source and provides amplification.
+For proper amplification, it is very important that the transistor is biased correctly so that it remains in the saturation region for the entire input signal swing.
 
 ---
 
 # GIVEN PARAMETERS
 
-## Technology Parameters (TSMC 180nm)
-
-- Channel Length, $L_n = 560nm$
-- $V_{DD} = 1.8V$
-- Power limit ≤ 1 mW
-- Threshold Voltage, $V_T ≈ 0.366V$
+- Technology: TSMC 180nm
+- Supply voltage, $V_{DD} = 1.8V$
+- Power constraint ≤ 1mW
+- Channel length, $L_n = 560nm$
+- Threshold voltage, $V_T ≈ 0.366V$
 - Electron mobility, $\mu_n = 273.81 \times 10^{-4} \, m^2/Vs$
-- Oxide thickness, $T_{ox} = 4.1nm$
-- Permittivity:
-  $$
-  C_{ox} = \frac{\varepsilon_0 \varepsilon_r}{T_{ox}}
-  $$
-  $$
-  C_{ox} = 8.6 \times 10^{-3} F/m^2
-  $$
+- Load capacitor, $C_L = 10pF$
 
 ---
 
-# WHAT IS TO BE FOUND
+# OBJECTIVES
 
-1. Proper DC operating point
+In this experiment, the following parameters are to be determined:
+
+1. Proper DC operating point (Q-point)
 2. Drain resistor value $R_D$
-3. Width of transistor $W$
-4. Voltage gain (Theoretical and Simulation)
+3. Transistor width $W$
+4. Voltage gain (theoretical and simulated)
 5. Gain in dB
-6. Bandwidth
-7. 3dB frequency
+6. 3dB frequency
+7. Bandwidth
+8. Unity Gain Bandwidth
 
 ---
 
-# DC ANALYSIS (Q-POINT DESIGN)
+# DC ANALYSIS – DESIGNING THE Q POINT
 
-## Step 1: Power Constraint
+## Step 1: Applying Power Constraint
 
-Given:
+The total power consumed by the circuit is given by:
 
 $$
 P = V_{DD} I_D
 $$
 
-Since power ≤ 1 mW,
+Since the maximum allowed power is 1mW,
 
 $$
 I_D \le \frac{1 \times 10^{-3}}{1.8}
@@ -96,7 +67,7 @@ $$
 I_D \le 555.5\mu A
 $$
 
-We assume:
+To stay safely within this limit and also maintain reasonable gain, I assumed:
 
 $$
 I_D = 400\mu A
@@ -104,17 +75,21 @@ $$
 
 ---
 
-## Step 2: Choose Symmetrical Biasing
+## Step 2: Choosing a Proper Operating Voltage
 
-For maximum output swing:
+For maximum symmetrical output swing, it is always a good design practice to bias the drain voltage approximately at half of the supply voltage.
 
 $$
 V_{DS} = \frac{V_{DD}}{2} = 0.9V
 $$
 
+By doing this, the output can swing equally in both directions without hitting cutoff or triode region too early.
+
 ---
 
-## Step 3: Calculate Drain Resistance
+## Step 3: Calculating Drain Resistance
+
+Using:
 
 $$
 R_D = \frac{V_{DD} - V_{DS}}{I_D}
@@ -125,72 +100,83 @@ R_D = \frac{1.8 - 0.9}{400 \times 10^{-6}}
 $$
 
 $$
-R_D = 2250 \Omega
+R_D = 2250\Omega
 $$
+
+So the drain resistor was fixed as 2.25kΩ.
 
 ---
 
-## Step 4: Choose Gate Voltage
+## Step 4: Ensuring Saturation Condition
 
-To operate in saturation:
+For an NMOS transistor to operate in saturation:
 
 $$
 V_{DS} \ge V_{GS} - V_T
 $$
 
-We selected:
+I selected:
 
 $$
 V_{GS} = 0.9V
 $$
 
+Since:
+
+$$
+V_{GS} - V_T = 0.9 - 0.366 = 0.534V
+$$
+
+And because:
+
+$$
+V_{DS} = 0.9V > 0.534V
+$$
+
+the transistor clearly satisfies the saturation condition. This confirms that the device is operating in the correct region required for amplification.
+
 ---
 
-## Step 5: Calculate Transistor Width
+## Step 5: Calculating Transistor Width
 
-Drain current equation in saturation:
+The drain current in saturation is given by:
 
 $$
 I_D = \frac{1}{2} \mu_n C_{ox} \frac{W}{L} (V_{GS} - V_T)^2
 $$
 
-Rearranging for W:
+Rearranging for width:
 
 $$
 W = \frac{2 I_D L}{\mu_n C_{ox} (V_{GS} - V_T)^2}
 $$
 
-Initially calculated:
+Initially, the calculated width came out to be approximately:
 
 $$
-W = 6.67 \mu m
+W = 6.67\mu m
 $$
 
-But from simulation, actual current was slightly less than required.
+However, after running the simulation, the drain current was slightly lower than the intended 400µA. This happens because practical transistor models include second-order effects that slightly alter the expected current.
 
-So width was increased to:
+To correct this and achieve the desired operating current, I increased the width to:
 
 $$
-W = 9.08 \mu m
+W = 9.08\mu m
 $$
 
-This ensured correct $I_D$ and proper operating point.
+After this adjustment, the operating point matched the design target.
 
 ---
 
-## DC OPERATING POINT (From Simulation)
+## DC OPERATING POINT (FROM LTSPICE)
 
-From LTSpice:
+From simulation:
 
-- $V(n001) = 1.8V$
 - $V(vin) = 0.9V$
 - $V(vout) = 0.90005V$
 
-This confirms:
-
-- MOSFET is in saturation
-- Proper biasing is achieved
-- Q-point is correctly centered
+The output voltage being almost exactly 0.9V confirms that the drain node is properly centered. This means the transistor is biased correctly, and the Q-point lies safely in the saturation region, allowing symmetrical signal amplification.
 
 ---
 
@@ -198,17 +184,24 @@ This confirms:
 
 ## Input Signal
 
-Sine wave:
+- Type: Sine wave  
+- Frequency = 1kHz  
+- Amplitude = 10mV  
+- DC Offset = 0.9V  
 
-- Frequency = 1 kHz
-- Amplitude = 10 mV
-- DC Offset = 0.9 V
+The small amplitude ensures that:
+
+$$
+v_{gs} \ll (V_{GS} - V_T)
+$$
+
+Since the overdrive voltage is 0.534V and the input amplitude is only 10mV, the small-signal assumption is valid.
 
 ---
 
-## From Simulation
+## Simulation Results
 
-Measured:
+Measured values:
 
 $$
 V_{in(pp)} = 19.237mV
@@ -227,10 +220,6 @@ A_v = \frac{V_{out(pp)}}{V_{in(pp)}}
 $$
 
 $$
-A_v = \frac{63.997}{19.237}
-$$
-
-$$
 A_v = 3.326
 $$
 
@@ -241,20 +230,16 @@ A_v(dB) = 20\log_{10}(3.326)
 $$
 
 $$
-A_v = 10.438 dB
+A_v = 10.438dB
 $$
 
-Waveform clearly shows:
-
-- Output is inverted
-- Amplified
-- Proper linear operation
+The waveform clearly shows that the output is inverted with respect to the input, which confirms the 180-degree phase shift characteristic of a CS amplifier. Also, the output amplitude is more than three times the input amplitude, verifying amplification.
 
 ---
 
 # THEORETICAL GAIN
 
-Small signal gain:
+For a CS amplifier:
 
 $$
 A_v = -g_m R_D
@@ -267,18 +252,10 @@ g_m = \frac{2I_D}{V_{GS} - V_T}
 $$
 
 $$
-g_m = \frac{2 \times 400\mu}{0.534}
-$$
-
-$$
 g_m = 1.498 \times 10^{-3}
 $$
 
-Thus:
-
-$$
-A_v = 1.498 \times 10^{-3} \times 2250
-$$
+Thus,
 
 $$
 A_v = 3.37
@@ -287,56 +264,74 @@ $$
 In dB:
 
 $$
-A_v = 10.55 dB
+A_v = 10.55dB
 $$
 
 ---
 
-## Why Theoretical and Simulation Differ Slightly?
+## Reason for Slight Difference Between Theory and Simulation
 
-The difference occurs because:
+The theoretical calculation assumes an ideal MOSFET and ignores practical second-order effects. In reality:
 
-1. Channel length modulation is ignored in theory
-2. Parasitic capacitances are ignored
-3. Mobility degradation effects not included
-4. LTSpice uses complete transistor model
+- Channel length modulation is present.
+- Parasitic capacitances exist in the device structure.
+- The SPICE model includes more accurate physical parameters.
 
-Hence small deviation (3.37 vs 3.326) is expected.
+Because of these factors, the simulated gain (3.326) is slightly lower than the theoretical value (3.37). This small variation is completely expected in practical circuit analysis.
 
 ---
 
 # AC ANALYSIS
 
-## Without Capacitor
+## 3dB Frequency (With Load Capacitor)
 
-3dB frequency:
-
-$$
-f_{3dB} = 1.2966 GHz
-$$
-
-Bandwidth:
+From simulation:
 
 $$
-BW = 1.2966 GHz
+f_{3dB} = 7.328 \, MHz
 $$
 
 ---
 
-## With Load Capacitor $C_L = 10pF$
+## Unity Gain Bandwidth (UGB)
 
-From simulation:
-
-- 3dB frequency = 7.328 MHz
-- 0dB frequency = 23.29 MHz
-
-This reduction occurs because:
+For a single-pole amplifier:
 
 $$
-f = \frac{1}{2\pi R_D C_L}
+UGB = A_{midband} \times f_{3dB}
 $$
 
-Adding capacitor introduces dominant pole and reduces bandwidth.
+Using:
+
+$$
+A_{midband} = 3.326
+$$
+
+$$
+f_{3dB} = 7.328 \, MHz
+$$
+
+$$
+UGB = 3.326 \times 7.328
+$$
+
+$$
+UGB ≈ 24.37 \, MHz
+$$
+
+From simulation, the frequency at which gain becomes 0dB is approximately:
+
+$$
+23.29 \, MHz
+$$
+
+This value is very close to the calculated unity gain bandwidth, thereby verifying the relationship:
+
+$$
+UGB = A_v \times f_{3dB}
+$$
+
+The small deviation again arises due to higher-order poles and parasitic effects.
 
 ---
 
@@ -350,18 +345,17 @@ Adding capacitor introduces dominant pole and reduces bandwidth.
 | Gain (Transient) | 3.326 |
 | Gain (Theoretical) | 3.37 |
 | Gain (dB) | ~10.4 dB |
-| 3dB Frequency (with CL) | 7.328 MHz |
+| 3dB Frequency | 7.328 MHz |
+| Unity Gain Frequency | ~23–24 MHz |
 
 ---
 
 # INFERENCE
 
-1. Proper DC biasing ensures linear operation.
-2. Gain from simulation matches closely with theoretical calculation.
-3. Output waveform shows correct 180° phase inversion.
-4. Addition of load capacitor reduces bandwidth significantly.
-5. CS amplifier provides moderate gain and is suitable for voltage amplification applications.
+From this experiment, it is clear that proper DC biasing is extremely important for linear amplification. By carefully selecting the drain current and bias voltages, the transistor was successfully maintained in saturation throughout operation.
 
-The experiment successfully demonstrates design and analysis of a CS amplifier in 180nm technology.
+The transient analysis confirmed that the amplifier provides voltage gain along with 180-degree phase inversion. The theoretical and simulated gains are very close, which validates the design procedure.
 
----
+The AC analysis demonstrated that adding a load capacitor introduces a dominant pole, thereby reducing bandwidth. The unity gain bandwidth relationship was verified successfully from simulation results.
+
+Overall, the design and analysis of the Common Source amplifier using 180nm technology was successfully completed.
