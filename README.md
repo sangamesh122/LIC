@@ -484,4 +484,4 @@ The AC analysis demonstrated that the bandwidth of the amplifier is strongly dep
 
 Thus, the experiment clearly verifies how the RC network at the drain node determines the high-frequency response of the CS amplifier.
 
- of the Common Source amplifier using 180nm technology was successfully completed.
+Therefore, the experiment of the design of the Common Source amplifier using 180nm technology was successfully completed.
