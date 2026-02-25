@@ -327,9 +327,56 @@ Because of these factors, the simulated gain (3.326) is slightly lower than the 
 
 ---
 
-# AC ANALYSIS
+# AC ANALYSIS (FREQUENCY RESPONSE)
 
-## 3dB Frequency (With Load Capacitor)
+To understand the frequency behaviour of the Common Source amplifier, AC analysis was carried out under two different conditions:
+
+1. Without external load capacitor (only internal parasitic capacitance ≈ 50 fF)
+2. With external load capacitor ($C_L = 10pF$)
+
+This comparison helps in clearly understanding how capacitance at the output node affects bandwidth.
+
+---
+
+## AC RESPONSE WITHOUT LOAD CAPACITOR (Only 50 fF Parasitic)
+
+<p align="center">
+  <img src="[YOUR_FILE_NAME_HERE.png](https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-26%20002900.png)" width="750">
+</p>
+
+<p align="center">
+  <em>Figure: AC Response of CS Amplifier with Only Parasitic Capacitance (≈50 fF)</em>
+</p>
+
+In this case, the 10pF load capacitor was not connected. However, the intrinsic parasitic capacitance of the MOSFET (approximately 50 fF) was still present at the drain node.
+
+From simulation, the 3dB frequency obtained was:
+
+$$
+f_{3dB} = 1.3051 \, GHz
+$$
+
+Since this is a single dominant pole system, the bandwidth is equal to the 3dB frequency:
+
+$$
+BW = 1.3051 \, GHz
+$$
+
+Because the capacitance at the output node is extremely small, the RC time constant is very small. As a result, the dominant pole occurs at a very high frequency, allowing the amplifier to maintain its gain up to the GHz range before roll-off begins.
+
+---
+
+## AC RESPONSE WITH LOAD CAPACITOR ($C_L = 10pF$)
+
+<p align="center">
+  <img src="[YOUR_FILE_NAME_HERE.png](https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png)" width="750">
+</p>
+
+<p align="center">
+  <em>Figure: AC Response of CS Amplifier with 10pF Load Capacitor</em>
+</p>
+
+When a 10pF capacitor was connected at the output node, the total capacitance increased significantly.
 
 From simulation:
 
@@ -337,9 +384,23 @@ $$
 f_{3dB} = 7.328 \, MHz
 $$
 
+Thus,
+
+$$
+BW = 7.328 \, MHz
+$$
+
+The unity gain frequency observed from the plot was approximately:
+
+$$
+f_{UGB} \approx 23.29 \, MHz
+$$
+
 ---
 
-## Unity Gain Bandwidth (UGB)
+## Verification of Unity Gain Bandwidth
+
+For a single-pole amplifier, the unity gain bandwidth is given by:
 
 $$
 UGB = A_{midband} \times f_{3dB}
@@ -360,41 +421,41 @@ UGB = 3.326 \times 7.328
 $$
 
 $$
-UGB ≈ 24.37 \, MHz
+UGB \approx 24.37 \, MHz
 $$
 
-From simulation, the frequency at which gain becomes 0dB is approximately:
+The calculated value (24.37 MHz) is very close to the simulated unity gain frequency (~23.29 MHz), confirming that the amplifier behaves approximately as a single dominant pole system.
 
-$$
-23.29 \, MHz
-$$
-
-This value is very close to the calculated unity gain bandwidth, therefore the relationship is verified:
-
-$$
-UGB = A_v \times f_{3dB}
-$$
-
-The small deviation again arises due to parasitic capacitance effects.
 ---
 
-## AC ANALYSIS (FREQUENCY RESPONSE)
+## Explanation of Dominant Pole (From Circuit Perspective)
 
-<p align="center">
-  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png" width="750">
-</p>
+The dominant pole in this circuit is formed at the drain node due to the combination of:
 
-<p align="center">
-  <em>Figure 5: Bode Plot Showing Gain Roll-Off, 3dB Frequency and Unity Gain Frequency</em>
-</p>
+- Drain resistance $R_D$
+- Total capacitance at the output node
 
-From the frequency response plot, the mid-band gain remains constant up to the 3dB frequency, after which the gain starts decreasing due to the effect of load capacitance and parasitic elements. The unity gain frequency obtained from the graph closely matches the calculated value using the relation:
+This forms an RC network, whose pole frequency is approximately:
 
 $$
-UGB = A_{midband} \times f_{3dB}
+f_p = \frac{1}{2\pi R_D C_{total}}
 $$
 
-This validates the theoretical understanding of single-pole amplifier behavior.
+Where:
+
+$$
+C_{total} = C_{parasitic} + C_L
+$$
+
+At low frequencies, the capacitor behaves almost like an open circuit, so the gain remains constant (midband region).
+
+At high frequencies, the capacitor reactance decreases and it provides a path to ground, which reduces the output signal amplitude. This causes the gain to roll off at −20 dB/decade.
+
+Since this RC network allows low frequencies to pass and attenuates high frequencies, the output node behaves as a **low-pass filter**.
+
+When only 50 fF is present, the pole is in the GHz range.  
+When 10 pF is added, the capacitance increases drastically, shifting the pole to the MHz range and reducing the bandwidth significantly.
+
 ---
 
 # RESULTS
@@ -407,17 +468,20 @@ This validates the theoretical understanding of single-pole amplifier behavior.
 | Gain (Transient) | 3.326 |
 | Gain (Theoretical) | 3.37 |
 | Gain (dB) | ~10.4 dB |
-| 3dB Frequency | 7.328 MHz |
+| 3dB Frequency (Parasitic Only) | 1.3051 GHz |
+| 3dB Frequency (With 10pF Load) | 7.328 MHz |
 | Unity Gain Frequency | ~23–24 MHz |
 
 ---
 
 # INFERENCE
 
-From this experiment, it is clear that proper DC biasing is extremely important for linear amplification. By carefully selecting the drain current and bias voltages, the transistor was successfully maintained in saturation throughout operation.
+From this experiment, it is clearly observed that proper DC biasing ensures that the MOSFET operates in the saturation region, allowing linear amplification with symmetrical signal swing.
 
-The transient analysis confirmed that the amplifier provides voltage gain along with 180-degree phase inversion. The theoretical and simulated gains are very close, which tells that the design was properly done.
+The transient analysis confirmed that the amplifier provides voltage gain along with a 180° phase shift, which is characteristic of a Common Source configuration. The close agreement between theoretical and simulated gain validates the design calculations.
 
-The AC analysis demonstrated that adding a load capacitor introduces pole and higher frequencies are attenueated, thereby reducing bandwidth. The unity gain bandwidth relationship was verified successfully from simulation results.
+The AC analysis demonstrated that the bandwidth of the amplifier is strongly dependent on the capacitance present at the output node. When only small parasitic capacitance (50 fF) is present, the bandwidth extends into the GHz range. However, when a 10pF load capacitor is added, it dominates the output capacitance and shifts the dominant pole to a much lower frequency, reducing the bandwidth to the MHz range.
 
-Overall, the design and analysis of the Common Source amplifier using 180nm technology was successfully completed.
+Thus, the experiment clearly verifies how the RC network at the drain node determines the high-frequency response of the CS amplifier.
+
+ of the Common Source amplifier using 180nm technology was successfully completed.
