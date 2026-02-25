@@ -341,7 +341,7 @@ This comparison helps in clearly understanding how capacitance at the output nod
 ## AC RESPONSE WITHOUT LOAD CAPACITOR (Only 50 fF Parasitic)
 
 <p align="center">
-  <img src="(https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-26%20002900.png)" width="750">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-26%20002900.png" width="750">
 </p>
 
 <p align="center">
@@ -369,7 +369,7 @@ Because the capacitance at the output node is extremely small, the RC time const
 ## AC RESPONSE WITH LOAD CAPACITOR ($C_L = 10pF$)
 
 <p align="center">
-  <img src="(https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png)" width="750">
+  <img src="https://github.com/sangamesh122/LIC/blob/main/Screenshot%202026-02-20%20205404.png" width="750">
 </p>
 
 <p align="center">
