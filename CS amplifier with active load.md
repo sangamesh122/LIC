@@ -278,7 +278,7 @@ This adjustment ensured that the circuit achieved the correct operating point.
 # TRANSIENT ANALYSIS
 
 <p align="center">
-  <img src="YOUR_TRANSIENT_IMAGE.png" width="750">
+  <img src="Screenshot 2026-03-05 121026.png" width="750">
 </p>
 
 <p align="center">
@@ -310,7 +310,7 @@ The transient response clearly shows that the output signal is amplified and inv
 # AC ANALYSIS
 
 <p align="center">
-  <img src="YOUR_AC_IMAGE.png" width="750">
+  <img src="Screenshot 2026-02-26 161607.png" width="750">
 </p>
 
 <p align="center">
