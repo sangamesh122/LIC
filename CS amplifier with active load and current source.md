@@ -239,7 +239,59 @@ VB2 = VGS = 0.666 V
 For M2
 
 VB1 = 1.11 V
+## Transistor Width Calculation
 
+The transistor width is calculated using the MOSFET current equation in saturation region
+
+\[
+I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}(V_{ov})^2
+\]
+
+Rearranging the equation,
+
+\[
+W = \frac{2 I_D L}{\mu C_{ox}(V_{ov})^2}
+\]
+
+## NMOS Width
+
+Given:
+
+\(I_D = 400\,\mu A\)  
+\(L = 560\,nm\)  
+\(V_{ov} = 0.3\,V\)  
+\(\mu_n C_{ox} = 115.6 \times 10^{-6}\,A/V^2\)
+
+\[
+W_n =
+\frac{2 \times (400 \times 10^{-6}) \times (560 \times 10^{-9})}
+{(115.6 \times 10^{-6})(0.3)^2}
+\]
+
+\[
+W_n \approx 43.1\,\mu m
+\]
+
+## PMOS Width
+
+Using PMOS process parameter
+
+\(k_p = 9.7361 \times 10^{-5}\,A/V^2\)
+
+\[
+W_p =
+\frac{2 \times (400 \times 10^{-6}) \times (560 \times 10^{-9})}
+{(9.7361 \times 10^{-5})(0.3)^2}
+\]
+
+\[
+W_p \approx 51.1\,\mu m
+\]
+
+The theoretical widths obtained from the above calculations were then adjusted during simulation in order to obtain the correct DC operating point. The final transistor widths used in the LTSpice simulation are:
+
+- **NMOS (M1, M3)** : \(W = 36.05\,\mu m\)  
+- **PMOS (M2)** : \(W = 108.05\,\mu m\)
 ---
 
 ## Output Voltage
